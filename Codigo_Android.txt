@@ -1,0 +1,65 @@
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toast.makeText( context: this, text: "onCreate",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText( context: this, text: "onStart",Toast.LENGTH_SHORT).show();
+        //La aplicación esta apunto de visualización
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText( context: this, text: "onResume",Toast.LENGTH_SHORT).show();
+        //La aplicación esta corriendo
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText( context: this, text: "onPause",Toast.LENGTH_SHORT).show();
+        //La aplicación esta en pausa
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Toast.makeText( context: this, text: "onStop",Toast.LENGTH_SHORT).show();
+        //La aplicación esta en parada
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText( context: this, text: "onDestroy",Toast.LENGTH_SHORT).show();
+        //La aplicación se cierra
+    }
+}
+
+
+_______________________________________________________________________________________________________________________________________________
+
+    int matematicas = 5;
+    int quimica =5;
+    int fisica = 5;
+    int promedio = 0;
+
+    promedio= (matematicas+quimica+fisica)/3;
+
+    if(promedio>6){
+        Toast.makeText(context: this, text: "Aprobo la materia",Toast.LENGTH_SHORT).show();
+    }else if (promedio<=5);
+    {
+        Toast.makeText(context: this, text: "Perdio la materia",Toast.LENGTH_SHORT).show();
+    }
+
+_______________________________________________________________________________________________________________________________________________
+
+

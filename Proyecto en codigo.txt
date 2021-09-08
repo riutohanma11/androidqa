@@ -1,0 +1,1463 @@
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Activity_Agregar_animales extends AppCompatActivity {
+
+    private EditText nombAnimal, Codigo, NumeroArete, Lote, TipoGana, Sexo, Raza, Color, Proposito, Caract;
+    private Button AgregarDatos;
+
+    private String nomAni = "";
+    private String codi = "";
+    private String numAre = "";
+    private String lot = "";
+    private String tipog = "";
+    private String sex = "";
+    private String raz = "";
+    private String colr = "";
+    private String propi = "";
+    private String carac = "";
+
+    DatabaseReference firebaseDatabase;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__agregar_animales);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+
+        nombAnimal=(EditText)findViewById(R.id.et_agre_ani_nom);
+        Codigo=(EditText)findViewById(R.id.et_agre_ani_cod);
+        NumeroArete=(EditText)findViewById(R.id.et_agre_ani_arete);
+        Lote=(EditText)findViewById(R.id.et_agre_ani_lote);
+        TipoGana=(EditText)findViewById(R.id.sp_agre_ani_tipo);
+        Sexo=(EditText)findViewById(R.id.sp_agre_ani_sex);
+        Raza=(EditText)findViewById(R.id.sp_agre_ani_raza);
+        Color=(EditText)findViewById(R.id.et_agre_ani_color);
+        Proposito=(EditText)findViewById(R.id.sp_agre_ani_proposito);
+        Caract=(EditText)findViewById(R.id.et_agre_ani_caracte);
+        AgregarDatos=(Button)findViewById(R.id.btn_add_datos);
+
+        AgregarDatos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nomAni = nombAnimal.getText().toString();
+                codi = Codigo.getText().toString();
+                numAre = NumeroArete.getText().toString();
+                lot = Lote.getText().toString();
+                tipog = TipoGana.getText().toString();
+                sex = Sexo.getText().toString();
+                raz = Raza.getText().toString();
+                colr = Color.getText().toString();
+                propi = Proposito.getText().toString();
+                carac = Caract.getText().toString();
+
+
+                if (!nomAni.isEmpty()&&!codi.isEmpty()&&!numAre.isEmpty()&&!lot.isEmpty()&&!tipog.isEmpty()&&!sex.isEmpty()&&!raz.isEmpty()&&!colr.isEmpty()&&!propi.isEmpty()&&!carac.isEmpty()){
+
+                    if (codi.length() >=5){
+
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("nombreanimal", nomAni);
+                        map.put("codigo", codi);
+                        map.put("numerodearete", numAre);
+                        map.put("lote", lot);
+                        map.put("tipodeganado", tipog);
+                        map.put("sexo", sex);
+                        map.put("raza", raz);
+                        map.put("color", colr);
+                        map.put("proposito", propi);
+                        map.put("caracteristicas", carac);
+
+                        firebaseDatabase.child("Animales").push().setValue(map);
+
+                        Toast.makeText(Activity_Agregar_animales.this,"Datos agregados correctamente ",Toast.LENGTH_SHORT).show();
+                        limpiarcajas();
+
+                        }else{
+                        Toast.makeText(Activity_Agregar_animales.this,"El codigo debe ser superior o igual a 5 digitos (00001) ",Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }else{
+                    Toast.makeText(Activity_Agregar_animales.this,"Debe Completar todos los Campos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void limpiarcajas() {
+        nombAnimal.setText("");
+        Codigo.setText("");
+        NumeroArete.setText("");
+        Lote.setText("");
+        TipoGana.setText("");
+        Sexo.setText("");
+        Raza.setText("");
+        Color.setText("");
+        Proposito.setText("");
+        Caract.setText("");
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gana_Animales.class);
+        startActivity(volver);
+    }
+
+}
+
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Activity_Agregar_datosvete extends AppCompatActivity {
+
+    private EditText nombAnimal, Fecha, Tipo, Veter, Medico, Diagnos, Estado, Diastrata;
+    private Button AgregarDatos;
+
+    private String nomAni = "";
+    private String Fec = "";
+    private String Tip = "";
+    private String Vete = "";
+    private String Medi = "";
+    private String Diag = "";
+    private String Est = "";
+    private String Diastra = "";
+
+    DatabaseReference firebaseDatabase;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__agregar_datosvete);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+
+        nombAnimal=(EditText)findViewById(R.id.sp_agre_dat_nom);
+        Fecha=(EditText)findViewById(R.id.et_agre_dat_fech);
+        Tipo=(EditText)findViewById(R.id.sp_agre_dat_tipo);
+        Veter=(EditText)findViewById(R.id.et_agre_dat_vete);
+        Medico=(EditText)findViewById(R.id.et_agre_dat_medi);
+        Diagnos=(EditText)findViewById(R.id.et_agre_dat_diag);
+        Estado=(EditText)findViewById(R.id.sp_agre_dat_estado);
+        Diastrata=(EditText)findViewById(R.id.et_agre_dat_dias);
+        AgregarDatos=(Button)findViewById(R.id.btn_add_datos);
+
+        AgregarDatos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nomAni = nombAnimal.getText().toString();
+                Fec = Fecha.getText().toString();
+                Tip = Tipo.getText().toString();
+                Vete = Veter.getText().toString();
+                Medi = Medico.getText().toString();
+                Diag = Diagnos.getText().toString();
+                Est = Estado.getText().toString();
+                Diastra = Diastrata.getText().toString();
+
+                if (!nomAni.isEmpty()&&!Fec.isEmpty()&&!Tip.isEmpty()&&!Vete.isEmpty()&&!Medi.isEmpty()&&!Diag.isEmpty()&&!Est.isEmpty()&&!Diastra.isEmpty()){
+
+                    if (Tip.length() >=2){
+
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("nombreanimal", nomAni);
+                        map.put("fecha", Fec);
+                        map.put("tipo", Tip);
+                        map.put("veterinario", Vete);
+                        map.put("medico", Medi);
+                        map.put("diagnostico", Diag);
+                        map.put("estado", Est);
+                        map.put("diastratamiento", Diastra);
+
+                        firebaseDatabase.child("Veterinarios").push().setValue(map);
+
+                        Toast.makeText(Activity_Agregar_datosvete.this,"Datos agregados correctamente ",Toast.LENGTH_SHORT).show();
+                        limpiarcajas();
+
+                    }else{
+                        Toast.makeText(Activity_Agregar_datosvete.this,"El tipo del ganado debe ser mayor ",Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }else{
+                    Toast.makeText(Activity_Agregar_datosvete.this,"Debe Completar todos los Campos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void limpiarcajas() {
+        nombAnimal.setText("");
+        Fecha.setText("");
+        Tipo.setText("");
+        Veter.setText("");
+        Medico.setText("");
+        Diagnos.setText("");
+        Estado.setText("");
+        Diastrata.setText("");
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gana_DatosVete.class);
+        startActivity(volver);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Agregar_ferti extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__agregar_ferti);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Camp_Ferti.class);
+        startActivity(volver);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Activity_Agregar_plant extends AppCompatActivity {
+
+    private EditText Siembra, Fecha, Subsiembra, Accion, Numplantas, Irrigacion, Estado, Encargado;
+    private Button AgregarDatos;
+
+    private String Siem = "";
+    private String Fec = "";
+    private String Subsiem = "";
+    private String Acci = "";
+    private String Numplan = "";
+    private String Irriga = "";
+    private String Est = "";
+    private String Encar = "";
+
+    DatabaseReference firebaseDatabase;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__agregar_plant);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+
+        Siembra=(EditText)findViewById(R.id.sp_agre_pln_sien);
+        Fecha=(EditText)findViewById(R.id.et_agre_pln_fech);
+        Subsiembra=(EditText)findViewById(R.id.sp_agre_pln_subsiem);
+        Accion=(EditText)findViewById(R.id.sp_agre_pln_acc);
+        Numplantas=(EditText)findViewById(R.id.et_agre_pln_plant);
+        Irrigacion=(EditText)findViewById(R.id.sp_agre_pln_irri);
+        Estado=(EditText)findViewById(R.id.sp_agre_pln_est);
+        Encargado=(EditText)findViewById(R.id.et_agre_pln_encr);
+        AgregarDatos=(Button)findViewById(R.id.btn_add_plant);
+
+        AgregarDatos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Siem = Siembra.getText().toString();
+                Fec = Fecha.getText().toString();
+                Subsiem = Subsiembra.getText().toString();
+                Acci = Accion.getText().toString();
+                Numplan = Numplantas.getText().toString();
+                Irriga = Irrigacion.getText().toString();
+                Est = Estado.getText().toString();
+                Encar = Encargado.getText().toString();
+
+                if (!Siem.isEmpty()&&!Fec.isEmpty()&&!Subsiem.isEmpty()&&!Acci.isEmpty()&&!Numplan.isEmpty()&&!Irriga.isEmpty()&&!Est.isEmpty()&&!Encar.isEmpty()){
+
+                    if (Siem.length() >=2){
+
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("siembra", Siem);
+                        map.put("fecha", Fec);
+                        map.put("subsiembra", Subsiem);
+                        map.put("accion", Acci);
+                        map.put("numeroplantas", Numplan);
+                        map.put("irrigacion", Irriga);
+                        map.put("estado", Est);
+                        map.put("encargado", Encar);
+
+                        firebaseDatabase.child("Platacion").push().setValue(map);
+
+                        Toast.makeText(Activity_Agregar_plant.this,"Datos agregados correctamente ",Toast.LENGTH_SHORT).show();
+                        limpiarcajas();
+
+                    }else{
+                        Toast.makeText(Activity_Agregar_plant.this,"El tipo del ganado debe ser mayor ",Toast.LENGTH_SHORT).show();
+                    }
+
+                }else{
+                    Toast.makeText(Activity_Agregar_plant.this,"Debe Completar todos los Campos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void limpiarcajas() {
+        Siembra.setText("");
+        Fecha.setText("");
+        Subsiembra.setText("");
+        Accion.setText("");
+        Numplantas.setText("");
+        Irrigacion.setText("");
+        Estado.setText("");
+        Encargado.setText("");
+
+    }
+
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Camp_Plant.class);
+        startActivity(volver);
+    }
+
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Activity_Agregar_reproductores extends AppCompatActivity {
+
+    private EditText nombAnimal, Fecha, Tipo, Fertil, Macho, Encargado, Estado, Revision;
+    private Button AgregarDatos;
+
+    private String nomAni = "";
+    private String Fec = "";
+    private String Tip = "";
+    private String Fert = "";
+    private String Mach = "";
+    private String Encar = "";
+    private String Est = "";
+    private String Revisi = "";
+
+    DatabaseReference firebaseDatabase;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__agregar_reproductores);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+
+        nombAnimal=(EditText)findViewById(R.id.sp_agre_rep_nom);
+        Fecha=(EditText)findViewById(R.id.et_agre_rep_fech);
+        Tipo=(EditText)findViewById(R.id.sp_agre_rep_tipo);
+        Fertil=(EditText)findViewById(R.id.sp_agre_rep_fer);
+        Macho=(EditText)findViewById(R.id.sp_agre_rep_macho);
+        Encargado=(EditText)findViewById(R.id.et_agre_rep_encargado);
+        Estado=(EditText)findViewById(R.id.et_agre_rep_estado);
+        Revision=(EditText)findViewById(R.id.et_agre_rep_rev);
+        AgregarDatos=(Button)findViewById(R.id.btn_add_repro);
+
+        AgregarDatos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nomAni = nombAnimal.getText().toString();
+                Fec = Fecha.getText().toString();
+                Tip = Tipo.getText().toString();
+                Fert = Fertil.getText().toString();
+                Mach = Macho.getText().toString();
+                Encar = Encargado.getText().toString();
+                Est = Estado.getText().toString();
+                Revisi = Revision.getText().toString();
+
+                if (!nomAni.isEmpty()&&!Fec.isEmpty()&&!Tip.isEmpty()&&!Fert.isEmpty()&&!Mach.isEmpty()&&!Encar.isEmpty()&&!Est.isEmpty()&&!Revisi.isEmpty()){
+
+                    if (Tip.length() >=2){
+
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("nombreanimal", nomAni);
+                        map.put("fecha", Fec);
+                        map.put("tipo", Tip);
+                        map.put("tipodefertilizacion", Fert);
+                        map.put("macho", Mach);
+                        map.put("encargado", Encar);
+                        map.put("estado", Est);
+                        map.put("revision", Revisi);
+
+                        firebaseDatabase.child("Reproducion").push().setValue(map);
+
+                        Toast.makeText(Activity_Agregar_reproductores.this,"Datos agregados correctamente ",Toast.LENGTH_SHORT).show();
+                        limpiarcajas();
+
+                    }else{
+                        Toast.makeText(Activity_Agregar_reproductores.this,"El tipo del ganado debe ser mayor ",Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }else{
+                    Toast.makeText(Activity_Agregar_reproductores.this,"Debe Completar todos los Campos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void limpiarcajas() {
+        nombAnimal.setText("");
+        Fecha.setText("");
+        Tipo.setText("");
+        Fertil.setText("");
+        Macho.setText("");
+        Encargado.setText("");
+        Estado.setText("");
+        Revision.setText("");
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gana_Repro.class);
+        startActivity(volver);
+    }
+
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Camp_Ferti extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__camp__ferti);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gestion_Campo.class);
+        startActivity(volver);
+    }
+
+    //Metodo para el boton Agreferti
+    public void Agreferti(View view) {
+        Intent agreferti = new Intent(this, Activity_Agregar_ferti.class);
+        startActivity(agreferti);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Camp_Plant extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__camp__plant);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gestion_Campo.class);
+        startActivity(volver);
+    }
+
+    //Metodo para el boton Agreplant
+    public void Agreplant(View view) {
+        Intent agreplant = new Intent(this, Activity_Agregar_plant.class);
+        startActivity(agreplant);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Camp_ProdCamp extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__camp__prod_camp);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gestion_Campo.class);
+        startActivity(volver);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+public class Activity_cuatro extends AppCompatActivity {
+
+    private EditText mail;
+    private EditText passw;
+    private Button init;
+    private Button resetpass;
+
+    private String cor = "";
+    private String pas = "";
+
+    private FirebaseAuth mAuth;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cuatro);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mail =(EditText)findViewById(R.id.et_mail_prin);
+        passw =(EditText)findViewById(R.id.et_pass_prin);
+        init =(Button) findViewById(R.id.btn_login);
+        resetpass =(Button) findViewById(R.id.btn_recuperar);
+
+        init.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cor= mail.getText().toString();
+                pas= passw.getText().toString();
+
+                if (!cor.isEmpty()&& !pas.isEmpty()){
+                    loginUser();
+                }else{
+                    Toast.makeText(Activity_cuatro.this,"Complete los campos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        resetpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_cuatro.this, Activity_quinta.class));
+            }
+        });
+
+    }
+
+    private void loginUser() {
+        mAuth.signInWithEmailAndPassword(cor, pas).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    startActivity(new Intent(Activity_cuatro.this, Activity_seis.class));
+                    finish();
+                }else{
+                    Toast.makeText(Activity_cuatro.this, "Usuario y/o Contraseña Incorrectas", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (mAuth.getCurrentUser() !=null){
+            startActivity(new Intent(Activity_cuatro.this, Activity_seis.class));
+            finish();
+        }
+
+    }
+    //Metodo para el boton volver(icono)
+    public void Volver(View view){
+        Intent volver = new Intent(this, Activity_sig.class);
+        startActivity(volver);
+    }
+
+
+
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_datos_finca extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_datos_finca);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+    }
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_perfil.class);
+        startActivity(volver);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Gana_Animales extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__gana__animales);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gestion_Ganadera.class);
+        startActivity(volver);
+    }
+
+    //Metodo para el boton agreanimales(icono)
+    public void Agreanimales(View view) {
+        Intent agreanimales = new Intent(this, Activity_Agregar_animales.class);
+        startActivity(agreanimales);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Gana_Carne extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__gana__carne);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gestion_Ganadera.class);
+        startActivity(volver);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Gana_DatosVete extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__gana__datos_vete);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gestion_Ganadera.class);
+        startActivity(volver);
+    }
+
+    //Metodo para el boton agredatos(icono)
+    public void Agredatos(View view) {
+        Intent agredatos = new Intent(this, Activity_Agregar_datosvete.class);
+        startActivity(agredatos);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Gana_Leche extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__gana__leche);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gestion_Ganadera.class);
+        startActivity(volver);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Gana_Repro extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__gana__repro);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_Gestion_Ganadera.class);
+        startActivity(volver);
+    }
+
+    //Metodo para el boton agreanimales(icono)
+    public void Agrerepro(View view) {
+        Intent agrerepro = new Intent(this, Activity_Agregar_reproductores.class);
+        startActivity(agrerepro);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Gestion_Campo extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__gestion__campo);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_seis.class);
+        startActivity(volver);
+    }
+
+    //Metodo para el boton Ganado
+    public void Ganado(View view) {
+        Intent ganado = new Intent(this, Activity_Gestion_Ganadera.class);
+        startActivity(ganado);
+    }
+
+    //Metodo para el boton Campo
+    public void Campo(View view) {
+        Intent campo = new Intent(this, Activity_Gestion_Campo.class);
+        startActivity(campo);
+    }
+
+    public void Plant(View view) {
+        Intent plant = new Intent(this, Activity_Camp_Plant.class);
+        startActivity(plant);
+    }
+
+    public void Ferti(View view) {
+        Intent ferti = new Intent(this, Activity_Camp_Ferti.class);
+        startActivity(ferti);
+    }
+
+    public void ProdCamp(View view) {
+        Intent prodcamp = new Intent(this, Activity_Camp_ProdCamp.class);
+        startActivity(prodcamp);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_Gestion_Ganadera extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__gestion__ganadera);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_seis.class);
+        startActivity(volver);
+    }
+    //Metodo para el boton Ganado
+    public void Ganado (View view) {
+        Intent ganado = new Intent(this, Activity_Gestion_Ganadera.class);
+        startActivity(ganado);
+    }
+    //Metodo para el boton Campo
+    public void Campo(View view) {
+        Intent campo = new Intent(this, Activity_Gestion_Campo.class);
+        startActivity(campo);
+    }
+    //Metodo para el boton animales
+    public void Animales(View view) {
+        Intent animales = new Intent(this, Activity_Gana_Animales.class);
+        startActivity(animales);
+    }
+
+    public void DatosVete(View view) {
+        Intent datosvete = new Intent(this, Activity_Gana_DatosVete.class);
+        startActivity(datosvete);
+    }
+
+    public void Reprod(View view) {
+        Intent reprod = new Intent(this, Activity_Gana_Repro.class);
+        startActivity(reprod);
+    }
+
+    public void Carne(View view) {
+        Intent carne = new Intent(this, Activity_Gana_Carne.class);
+        startActivity(carne);
+    }
+
+    public void Leche(View view) {
+        Intent leche = new Intent(this, Activity_Gana_Leche.class);
+        startActivity(leche);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+public class Activity_Miperfil extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__miperfil);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+    }
+
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view) {
+        Intent volver = new Intent(this, Activity_perfil.class);
+        startActivity(volver);
+    }
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class Activity_perfil extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_perfil);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+    }
+    //Metodo para el boton volver(icono)
+    public void Volver(View view){
+        Intent volver = new Intent(this, Activity_seis.class);
+        startActivity(volver);
+    }
+    //Metodo para el label datos de la finca
+    public void Datosfinca(View view){
+        Intent datosfinca = new Intent(this, Activity_datos_finca.class);
+        startActivity(datosfinca);
+    }
+    //Metodo para el label datos mi perfil
+    public void Datosperfil(View view){
+        Intent datosperfil = new Intent(this, Activity_Miperfil.class);
+        startActivity(datosperfil);
+    }
+
+}
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+
+public class Activity_quinta extends AppCompatActivity {
+
+    private EditText mail;
+    private Button recupe;
+
+    private String email = "";
+
+    private FirebaseAuth mAuth;
+
+    private ProgressDialog mDialog;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_quinta);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+        mAuth = FirebaseAuth.getInstance();
+        mDialog = new ProgressDialog(this);
+
+        mail = (EditText)findViewById(R.id.et_mail_recu);
+        recupe = (Button) findViewById(R.id.btn_enviar_recu);
+
+        recupe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                email = mail.getText().toString();
+
+                if (!email.isEmpty()){
+                    mDialog.setMessage("Espere un momento.......");
+                    mDialog.setCanceledOnTouchOutside(false);
+                    mDialog.show();
+                    resetPassword();
+
+                }else{
+                    Toast.makeText(Activity_quinta.this, "Debe ingresar el correo", Toast.LENGTH_SHORT).show();
+                }
+
+                mDialog.dismiss();
+
+            }
+        });
+
+
+    }
+
+
+    private void resetPassword(){
+
+        mAuth.setLanguageCode("es");
+        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(Activity_quinta.this, "Se ha enviando un correo para restablecer la contraseña", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(Activity_quinta.this, "No se pudo enviar el correo", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    //Metodo para el boton volver(icono)
+    public void Volver(View view){
+        Intent volver = new Intent(this, Activity_sig.class);
+        startActivity(volver);
+    }
+
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+public class Activity_seis extends AppCompatActivity {
+
+    private Button CerrarSesion;
+    private TextView nombr;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_seis);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        nombr = (TextView) findViewById(R.id.tv_nombre_sesion);
+        CerrarSesion = (Button) findViewById(R.id.btn_dev_4);
+
+        //Metodo para el boton volver
+        CerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(Activity_seis.this, Activity_cuatro.class));
+                finish();
+            }
+        });
+
+        getUserinfo();
+    }
+
+    private void getUserinfo() {
+        String id = mAuth.getCurrentUser().getUid();
+        mDatabase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String nombre = snapshot.child("nombre").getValue().toString();
+
+                    nombr.setText(nombre);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    //Metodo para el boton ingresar al perfil
+    public void Perfil(View view){
+        Intent perfil = new Intent(this, Activity_perfil.class);
+        startActivity(perfil);
+    }
+
+    //Metodo para el boton ingresar a mi finca
+    public void Finca(View view){
+        Intent finca = new Intent(this, Activity_Gestion_Ganadera.class);
+        startActivity(finca);
+    }
+
+
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+public class Activity_sig extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sig);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+    }
+
+    //Metodo para el boton registro
+    public void Registro (View view){
+        Intent registro = new Intent(this, Activity_tres.class);
+        startActivity(registro);
+    }
+    //Metodo para el boton iniciar sesión
+    public void Login (View view){
+        Intent login = new Intent(this, Activity_cuatro.class);
+        startActivity(login);
+    }
+    //Metodo para el boton Creador por...
+    public void Creado (View view){
+        Intent creado = new Intent(this, Activity_Creado.class);
+        startActivity(creado);
+    }
+
+}
+
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.icu.text.UnicodeSetSpanner;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Activity_tres extends AppCompatActivity  {
+
+    private EditText nomb, apell, cedl, corre, passw;
+    private Button Registros;
+
+    //Variables de los datos que vamos a registrar
+
+    private String nom = "";
+    private String ape = "";
+    private String ced = "";
+    private String cor = "";
+    private String pas = "";
+
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabase;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tres);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        nomb=(EditText)findViewById(R.id.et_name);
+        apell=(EditText)findViewById(R.id.et_last);
+        cedl=(EditText)findViewById(R.id.en_cc);
+        corre=(EditText)findViewById(R.id.et_email);
+        passw=(EditText)findViewById(R.id.et_pass);
+        Registros=(Button)findViewById(R.id.btn_regis_1);
+
+        Registros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nom = nomb.getText().toString();
+                ape = apell.getText().toString();
+                ced = cedl.getText().toString();
+                cor = corre.getText().toString();
+                pas = passw.getText().toString();
+
+
+                if (!nom.isEmpty()&&!ape.isEmpty()&&!ced.isEmpty()&&!cor.isEmpty()&&!pas.isEmpty()){
+
+                    if (pas.length() >=6){
+                        registrarUser();
+                    }else{
+                        Toast.makeText(Activity_tres.this,"La contraseña sebe tener al menos 6 caracteres",Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }else{
+                    Toast.makeText(Activity_tres.this,"Debe Completar todos los Campos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    //Metodo para el boton volver(icono)
+    public void Volver(View view){
+        Intent volver = new Intent(this, Activity_sig.class);
+        startActivity(volver);
+    }
+
+    private void registrarUser(){
+        mAuth.createUserWithEmailAndPassword(cor, pas).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+            if (task.isSuccessful()){
+
+                Map<String,Object> map = new HashMap<>();
+                map.put("nombre", nom);
+                map.put("apellido", ape);
+                map.put("cedula", ced);
+                map.put("correo", cor);
+                map.put("clave", pas);
+
+                String id = mAuth.getCurrentUser().getUid();
+
+                mDatabase.child("Users").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task2) {
+                        if (task2.isSuccessful()){
+                            startActivity(new Intent(Activity_tres.this, Activity_seis.class));
+                            finish();
+                        }else{
+                            Toast.makeText(Activity_tres.this,"No se puedieron crear los datos de manera correcta",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+            }else{
+                Toast.makeText(Activity_tres.this,"No se pudo registrar este usuario",Toast.LENGTH_SHORT).show();
+            }
+            }
+        });
+    }
+
+
+
+
+
+__________________________________________________________________________________________________________________________
+package com.example.agro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //Icono en el acción bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+
+        Toast.makeText(this, "Start App",Toast.LENGTH_SHORT).show();
+
+        TimerTask tarea = new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, Activity_sig.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+
+        Timer tiempo = new Timer();
+        tiempo.schedule(tarea,2000);
+
+    }
+}
+
+__________________________________________________________________________________________________________________________
+
+
